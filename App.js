@@ -1,23 +1,76 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View, Image, Button, TextInput, StyleSheet } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
+import GalleryScreen from './GalleryScreen';
+import ImageScreen from './ImageScreen';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
+class UserSearchScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Suretgram',
+    headerStyle: {
+      backgroundColor: '#ffffff',
+    },
+    headerTintColor: '#333333',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    }
   }
+
+  state = {
+    username: ''
+  }
+
+  render(){
+    return(
+      <View style={styles.form}>
+      
+        <TextInput
+            style={styles.input}
+            label='Username'
+            value={this.state.username}
+            onChangeText={username => this.setState({ username })}
+            underlineColor='#159688'
+
+            placeholder="Type username's name..."
+          />
+
+        <Button
+          title="Найти"
+          color="#1aa898"
+          onPress={() => {
+            this.props.navigation.navigate('Gallery', {
+              username: this.state.username
+            })
+          }}
+        />
+      </View>
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  form: {
+    padding: 50
   },
-});
+  input: {
+    fontSize: 16
+  }
+})
+
+const RootStack = createStackNavigator(
+  {
+    UserSearch: UserSearchScreen,
+    Gallery: GalleryScreen,
+    Image: ImageScreen
+  },
+  {
+    initialRouteName: 'UserSearch',
+  }
+);
+
+export default class App extends React.Component {
+  render() {
+    return <RootStack />;
+  }
+}
