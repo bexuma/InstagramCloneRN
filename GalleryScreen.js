@@ -36,6 +36,8 @@ class GalleryScreen extends React.Component {
         this.setState({
           isLoading: false,
           dataSource: responseJson.graphql.user.edge_owner_to_timeline_media.edges,
+        }, function(){
+
         });
 
       })
